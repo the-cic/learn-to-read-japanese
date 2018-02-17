@@ -5,17 +5,20 @@ angular.module('testView', ['data'])
 
             var self = this;
             var CASUAL = 'casual';
-            var TEST = 'test';
+            var TEST_ORAL = 'testOral';
+            var TEST_WRITTEN = 'testWritten';
 
             $scope.content = {
                 question: '',
                 answer: '',
+                writtenAnswer: '',
+                writtenAnswerCorrect: true,
                 showing: {
                     question: false,
                     answer: false,
                     result: false
                 },
-                mode: TEST,
+                mode: TEST_ORAL,
                 include: {
                     base: true,
                     extended: true,
@@ -35,8 +38,12 @@ angular.module('testView', ['data'])
                 $scope.content.showing.result = false;
             };
 
+            $scope.calculateTotalQuestions = function () {
+                return self.calculateTotalQuestions();
+            };
+
             $scope.startTest = function (mode) {
-                if (!$scope.content.include.base && !$scope.content.include.extended && !$scope.content.include.combined) {
+                if ($scope.content.test.total === 0) {
                     return;
                 }
                 $scope.content.mode = mode;
@@ -45,7 +52,7 @@ angular.module('testView', ['data'])
                 $scope.content.showing.answer = false;
                 $scope.content.showing.result = false;
                 self.nextQuestion();
-                if ($scope.content.mode === TEST) {
+                if ($scope.content.mode === TEST_ORAL || $scope.content.mode === TEST_WRITTEN) {
                     $scope.content.test.total = self.testTable.length;
                     $scope.content.test.correct = 0;
                     $scope.content.test.attempts = 0;
@@ -57,8 +64,20 @@ angular.module('testView', ['data'])
                 $scope.content.showing.answer = true;
             };
 
+            $scope.onWrittenAnswer = function () {
+                if ($scope.content.showing.answer) {
+                    $scope.showNextQuestion($scope.content.writtenAnswerCorrect);
+                    $scope.$digest();
+                } else {
+                    $scope.content.writtenAnswerCorrect = $scope.content.answer.toLowerCase() === $scope.content.writtenAnswer.toLowerCase();
+                    $scope.content.writtenAnswer = '';
+                    $scope.showAnswer();
+                    $scope.$digest();
+                }
+            };
+
             $scope.showNextQuestion = function (correct) {
-                if ($scope.content.mode === TEST) {
+                if ($scope.content.mode === TEST_ORAL || $scope.content.mode === TEST_WRITTEN) {
                     $scope.content.test.attempts++;
                     if (correct) {
                         $scope.content.test.correct++;
@@ -102,6 +121,21 @@ angular.module('testView', ['data'])
                 self.testTable = table;
             };
 
+            self.calculateTotalQuestions = function () {
+                var total = 0;
+                if ($scope.content.include.base) {
+                    total += self.hiraganaTable.base.length;
+                }
+                if ($scope.content.include.extended) {
+                    total += self.hiraganaTable.extended.length;
+                }
+                if ($scope.content.include.combined) {
+                    total += self.hiraganaTable.combined.length;
+                }
+                $scope.content.test.total = total;
+                return total;
+            };
+
             self.nextQuestion = function () {
                 var index = Math.floor(Math.random() * self.testTable.length);
 //                console.log("Selecting #" + index + " from " + self.testTable.length);
@@ -109,6 +143,7 @@ angular.module('testView', ['data'])
                 self.testIndex = index;
                 $scope.content.question = item.q;
                 $scope.content.answer = item.a;
+                $scope.content.writtenAnswer = '';
             };
 
             self.removeCurrentFromTest = function () {

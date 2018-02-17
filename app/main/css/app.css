@@ -13,6 +13,11 @@
     position: relative;    
 }
 
+.Setup .Total {
+    text-align: center;
+    font-size: 24px;
+}
+
 .Test {
     background-color: #ccffcc;
     border-radius: 10px;
@@ -36,7 +41,7 @@
 }
 
 .Options input[type=checkbox] {
-    border-radius: 10px;
+    /*border-radius: 10px;*/
 }
 
 .Stats {
@@ -64,6 +69,27 @@
     background-color: #ffffcc;
     height: 35px;
     line-height: 35px;
+}
+
+.WrittenAnswer {
+    max-width: 50%;
+    margin: 0 auto 20px auto;
+    text-align: center;
+}
+
+.WrittenAnswer input[type=text] {
+    border-radius: 10px;
+    border: none;
+    font-size: 24px;
+    height: 35px;
+    width: 100%;
+    line-height: 35px;
+    text-align: center;
+    background-color: #e5ffe5;
+}
+
+.WrittenAnswer .Hint {
+    font-size: 12px;
 }
 
 .TestButtons {
@@ -96,6 +122,15 @@
     width: 35%;
     position: absolute;
     bottom: 0;
+}
+
+.Button.Back {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-top: 10px;
 }
 
 .Correct {

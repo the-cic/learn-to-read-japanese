@@ -2,39 +2,57 @@
     <div class="Setup" ng-hide="content.showing.question">
         <div class="Options">
             <div>
-                <input type="checkbox" ng-model="content.include.base" /> Base characters
+                <input id="checkBase" type="checkbox" ng-model="content.include.base" /> 
+                <label for="checkBase">Base characters</label>
             </div>
             <div>
-                <input type="checkbox" ng-model="content.include.extended" /> Characters with diacritics
+                <input id="checkExtended" type="checkbox" ng-model="content.include.extended" /> 
+                <label for="checkExtended">Characters with diacritics</label>
             </div>
             <div>
-                <input type="checkbox" ng-model="content.include.combined" /> Combined characters
+                <input id="checkCombined" type="checkbox" ng-model="content.include.combined" /> 
+                <label for="checkCombined">Combined characters</label>
+            </div>
+            <div>
+                <input id="checkMissed" type="checkbox" ng-model="content.include.misses" /> 
+                <label for="checkMissed">Repeat missed questions</label>
             </div>
             <br />
-            <div>
-                <input type="checkbox" ng-model="content.include.misses" /> Repeat missed
-            </div>
-            <br />
+            <div class="Total">Characters: {{calculateTotalQuestions()}}</div>
         </div>
 
         <div class="Button" ng-click="startTest('casual')">Start Casual</div>
-        <div class="Button" ng-click="startTest('test')">Start Test</div>
+        <div class="Button" ng-click="startTest('testOral')">Start Oral Test</div>
+        <div class="Button" ng-click="startTest('testWritten')">Start Written Test</div>
     </div>
 
     <div class="Test" ng-show="content.showing.question && !content.showing.result" >
-        <div class="Status">{{content.test.remaining}} of {{content.test.total}} left</div>
+        <div class="Button Back" ng-click="showSetup()">Back</div>
+        <div class="Status" ng-hide="content.mode === 'casual'">{{content.test.remaining}} of {{content.test.total}} left</div>
+        
         <div class="Question">{{content.question}}</div>
-        <div class="Answer" ng-show="content.showing.answer">{{content.answer}}</div>
+        
+        <div ng-show="content.mode === 'testWritten'">
+            <div class="Answer" ng-class="{Correct: content.writtenAnswerCorrect, Wrong:!content.writtenAnswerCorrect}" ng-show="content.showing.answer">{{content.answer}}</div>
+        </div>
+        <div ng-hide="content.mode === 'testWritten'">
+            <div class="Answer" ng-show="content.showing.answer">{{content.answer}}</div>
+        </div>
 
         <div class="TestButtons">
-            <div class="Button ShowAnswer" ng-hide="content.showing.answer" ng-click="showAnswer()">Show answer</div>
-            
+            <div class="Button ShowAnswer" ng-hide="content.showing.answer || content.mode === 'testWritten'" ng-click="showAnswer()">Show answer</div>
+
             <div ng-show="content.mode === 'casual'">
                 <div class="Button ShowAnswer" ng-show="content.showing.answer" ng-click="showNextQuestion()">Next</div>
             </div>
-            <div ng-show="content.mode === 'test'">
+            <div ng-show="content.mode === 'testOral'">
                 <div class="Button Short Correct" ng-show="content.showing.answer" ng-click="showNextQuestion(true)">Got it</div>
                 <div class="Button Short Wrong" ng-show="content.showing.answer" ng-click="showNextQuestion(false)">Missed</div>
+            </div>
+            <div class="WrittenAnswer" ng-show="content.mode === 'testWritten'">
+                <span class="Hint">Write answer</span>
+                <br />
+                <input type="text" ng-model="content.writtenAnswer" on-key-enter="onWrittenAnswer()"/>
             </div>
         </div>
     </div>
