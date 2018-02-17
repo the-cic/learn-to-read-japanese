@@ -1,0 +1,109 @@
+
+.Content {
+    max-width: 400px;
+    margin: auto;
+}
+
+.Setup {
+    background-color: #ffffcc;
+    border-radius: 10px;
+    width: 400px;
+    height: 300px;
+    font-family: sans-serif;
+    position: relative;    
+}
+
+.Test {
+    background-color: #ccffcc;
+    border-radius: 10px;
+    width: 400px;
+    height: 300px;
+    font-family: sans-serif;
+    position: relative;
+}
+
+.Result {
+    background-color: #ccffcc;
+    border-radius: 10px;
+    width: 400px;
+    height: 300px;
+    font-family: sans-serif;
+    position: relative;    
+}
+
+.Options {
+    padding: 20px;
+}
+
+.Options input[type=checkbox] {
+    border-radius: 10px;
+}
+
+.Stats {
+    padding: 40px 20px 40px 20px;
+    font-size: 24px;
+    text-align: center
+}
+
+.Status {
+    position: absolute;
+    top:0;
+    text-align: center;
+    font-size: 12px;
+    width: 100%;
+}
+
+.Question {
+    font-size: 128px;
+    text-align: center;
+}
+
+.Answer {
+    font-size: 24px;
+    text-align: center;
+    background-color: #ffffcc;
+    height: 35px;
+    line-height: 35px;
+}
+
+.TestButtons {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+}
+
+.Button {
+    background-color: #e5ffe5;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 16px;
+    height: 24px;
+    line-height: 24px;
+    margin: 0 20px 20px 20px;
+    cursor: pointer;
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.Button.ShowAnswer {
+    margin-bottom: 50px;
+}
+
+.Button.Short {
+    width: 35%;
+    position: absolute;
+    bottom: 0;
+}
+
+.Correct {
+    background-color: #00cc33;
+    left: 0;
+}
+
+.Wrong {
+    background-color: #ff9999;
+    right: 0;
+}

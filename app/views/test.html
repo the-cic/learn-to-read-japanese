@@ -1,0 +1,52 @@
+<div class="Content">
+    <div class="Setup" ng-hide="content.showing.question">
+        <div class="Options">
+            <div>
+                <input type="checkbox" ng-model="content.include.base" /> Base characters
+            </div>
+            <div>
+                <input type="checkbox" ng-model="content.include.extended" /> Characters with diacritics
+            </div>
+            <div>
+                <input type="checkbox" ng-model="content.include.combined" /> Combined characters
+            </div>
+            <br />
+            <div>
+                <input type="checkbox" ng-model="content.include.misses" /> Repeat missed
+            </div>
+            <br />
+        </div>
+
+        <div class="Button" ng-click="startTest('casual')">Start Casual</div>
+        <div class="Button" ng-click="startTest('test')">Start Test</div>
+    </div>
+
+    <div class="Test" ng-show="content.showing.question && !content.showing.result" >
+        <div class="Status">{{content.test.remaining}} of {{content.test.total}} left</div>
+        <div class="Question">{{content.question}}</div>
+        <div class="Answer" ng-show="content.showing.answer">{{content.answer}}</div>
+
+        <div class="TestButtons">
+            <div class="Button ShowAnswer" ng-hide="content.showing.answer" ng-click="showAnswer()">Show answer</div>
+            
+            <div ng-show="content.mode === 'casual'">
+                <div class="Button ShowAnswer" ng-show="content.showing.answer" ng-click="showNextQuestion()">Next</div>
+            </div>
+            <div ng-show="content.mode === 'test'">
+                <div class="Button Short Correct" ng-show="content.showing.answer" ng-click="showNextQuestion(true)">Got it</div>
+                <div class="Button Short Wrong" ng-show="content.showing.answer" ng-click="showNextQuestion(false)">Missed</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="Result" ng-show="content.showing.result">
+        <div class="Stats">
+            Correct: {{content.test.correct}} of {{content.test.total}}
+            <br />
+            Accuracy: {{100 * content.test.correct / content.test.attempts| number : 2}} %
+            <br />
+        </div>
+
+        <div class="Button" ng-click="showSetup()">Again</div>
+    </div>
+</div>
